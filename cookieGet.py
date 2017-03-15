@@ -8,26 +8,10 @@ def save(file, regex):
     time.sleep(2)
     print("Downlaod complete\n")
     dl = open("C:/Users/drazlaptop/Downloads/download", "r")
-    download = dl.read()
-
-    t = open("dltemp.txt", "w")
-    t.write(str(download))
-    t.close()
-    t = open("dltemp.txt", "r")
-
-    
-    PHPSESSID = ".hackerexperience.com	TRUE	/	FALSE	0	PHPSESSID"
-    for line in t:
-        if PHPSESSID in line:
-            regex = r'(?<=PHPSESSID\t)\w{26}'
-            parse = re.findall(regex, line)
-
-            strparse = str(parse)
-            f = open("ssid.txt", "w+")
-            f.write(strparse)
-            print("New SSID:")
-            print(parse)
-            f.close()
+    download = dl.read()   
+    parse = re.findall(regex, download)
+    print("New SSID:")
+    print(parse)
 
             
                 
@@ -36,16 +20,8 @@ def save(file, regex):
 
 while True:
 
-    save("ssid.txt","(PHPSESSID\s+\w{26})")
-    f = open("ssid.txt", "r")            
-    g = f.read()
-    fixed = re.findall("\w{26}", g)
-    print(fixed)
+    save("ssid.txt",r"(?<=PHPSESSID\t)\w{26}")
     time.sleep(1)
     os.remove(dlfile)
     print ("Sleeping for 5 minutes..\n")
     time.sleep(300)
-                           
-
-
-

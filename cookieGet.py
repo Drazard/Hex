@@ -3,15 +3,31 @@ url = 'data:application/octet-stream;base64,IyBIVFRQIENvb2tpZSBGaWxlIGZvciBkb21h
 dlfile = "C:/Users/drazlaptop/Downloads/download"
 
 def save(file, regex):
+
+    print("file removed")
     webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(url)
-    print("Downloading file...\n")
+    print("Downloading file...")
     time.sleep(2)
-    print("Downlaod complete\n")
+    print("Downlaod complete.")
     dl = open("C:/Users/drazlaptop/Downloads/download", "r")
     download = dl.read()   
     parse = re.findall(regex, download)
-    print("New SSID:")
-    print(parse)
+    chop = str(parse)
+    newSSID = chop[2:28]
+    rf = open("ssid.txt", "r")
+    ow = open("ssid.txt", "w+")
+    oldSSID = rf.read()
+    if newSSID not in oldSSID:
+        print ("New ID assigned: "+newSSID+". Sleeping for 10 minutes...")
+        ow.write(newSSID)
+        ow.close()
+        rf.close()
+        time.sleep
+    else:
+        print(oldSSID+" Still valid Sleeping for 5 minutes.")
+        ow.close()
+        rf.close()
+        time.sleep(300)
 
             
                 
@@ -19,9 +35,14 @@ def save(file, regex):
                                
 
 while True:
+    try:
+        if os.path.isfile(dlfile):
+            os.remove(dlfile)
+            save("ssid.txt",r"(?<=PHPSESSID\t)\w{26}")
+            time.sleep(1)
+            os.remove(dlfile)                     
+    except:
+        print("ERROR... ")
+        os.remove(dlfile)
 
-    save("ssid.txt",r"(?<=PHPSESSID\t)\w{26}")
-    time.sleep(1)
-    os.remove(dlfile)
-    print ("Sleeping for 5 minutes..\n")
-    time.sleep(300)
+
